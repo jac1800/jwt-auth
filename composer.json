@@ -1,5 +1,5 @@
 {
-    "name": "xmo/jwt-auth",
+    "name": "jac1800/jwt-auth",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -8,15 +8,15 @@
     ],
     "authors": [
         {
-            "name": "xmo",
-            "email": "root@imoi.cn",
+            "name": "jac1800",
+            "email": "root@wantlu.com",
             "role": "Developer"
         }
     ],
     "description": "jwt-auth Component",
     "autoload": {
         "psr-4": {
-            "Xmo\\JWTAuth\\": "src/"
+            "Jac1800\\JWTAuth\\": "src/"
         }
     },
     "autoload-dev": {
@@ -43,7 +43,7 @@
     "scripts": {},
     "extra": {
         "hyperf": {
-            "config": "Xmo\\JWTAuth\\ConfigProvider"
+            "config": "Jac1800\\JWTAuth\\ConfigProvider"
         }
     }
 }
