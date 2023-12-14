@@ -6,7 +6,7 @@
  * Time: 13:43
  */
 
-namespace Xmo\JWTAuth\Exception;
+namespace Jac1800\JWTAuth\Exception;
 
 class TokenValidException extends \RuntimeException
 {

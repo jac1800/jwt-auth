@@ -1,19 +1,15 @@
 <?php
 declare(strict_types=1);
-namespace Xmo\JWTAuth;
+namespace Jac1800\JWTAuth;
 
 use Lcobucci\JWT\Token\Plain;
-use Xmo\JWTAuth\Util\JWTUtil;
-use Xmo\JWTAuth\Util\TimeUtil;
+use Jac1800\JWTAuth\Util\JWTUtil;
+use Jac1800\JWTAuth\Util\TimeUtil;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 
-/**
- * https://gitee.com/xmo/jwt-auth
- * 原作者 liyuzhao
- * 现维护者：xmo
- */
+
 class BlackList extends AbstractJWT
 {
     /**

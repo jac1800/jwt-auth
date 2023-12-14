@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Xmo\JWTAuth\Command;
+namespace Jac1800\JWTAuth\Command;
 
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;

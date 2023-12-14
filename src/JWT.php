@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Xmo\JWTAuth;
+namespace Jac1800\JWTAuth;
 
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Lcobucci\JWT\Signer;
@@ -9,11 +9,11 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\RegisteredClaims;
-use Xmo\JWTAuth\Exception\JWTException;
-use Xmo\JWTAuth\Exception\TokenValidException;
-use Xmo\JWTAuth\Util\JWTUtil;
+use Jac1800\JWTAuth\Exception\JWTException;
+use Jac1800\JWTAuth\Exception\TokenValidException;
+use Jac1800\JWTAuth\Util\JWTUtil;
 use Psr\Container\ContainerInterface;
-use Xmo\JWTAuth\Util\TimeUtil;
+use Jac1800\JWTAuth\Util\TimeUtil;
 
 /**
  * https://gitee.com/xmo/jwt-auth
@@ -101,9 +101,18 @@ class JWT extends AbstractJWT
         try {
             $token = $token ?? $this->getHeaderToken();
             $tokenObj = $this->getTokenObj($token);
-            $config = $this->getSceneConfig($scene ?? $this->getScene());
             $claims = $tokenObj->claims()->all();
-
+            $tokenScene = $claims[$this->tokenScenePrefix];
+            // 获取当前环境的场景配置并且验证该token是否是该配置生成的
+            //$independentTokenVerify true时会验证当前场景配置是否是生成当前的token的配置，需要配合自定义中间件实现，false会根据当前token拿到原来的场景配置，并且验证当前token
+            if ($this->getIndependentTokenVerify() && $tokenScene != $this->getScene()) {
+                throw new TokenValidException('Token authentication does not pass', 401);
+            }
+            //根据配置信息判断，设置当前token对应的场景scene
+            if (!$this->getIndependentTokenVerify()) {
+                $scene = $tokenScene ?? $scene;
+            }
+            $config = $this->getSceneConfig($scene ?? $this->getScene());
             $signer = new $config['supported_algs'][$config['alg']];
 
             // 验证token是否存在黑名单
@@ -115,10 +124,10 @@ class JWT extends AbstractJWT
                 throw new TokenValidException('Token authentication does not pass', 401);
             }
 
-            // 获取当前环境的场景配置并且验证该token是否是该配置生成的
-            if ($independentTokenVerify) {
-                $config = $this->getSceneConfig($this->getScene());
-            }
+//            // 获取当前环境的场景配置并且验证该token是否是该配置生成的
+//            if ($independentTokenVerify) {
+//                $config = $this->getSceneConfig($this->getScene());
+//            }
 
             return true;
         } catch (\RuntimeException $e) {

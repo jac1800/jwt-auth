@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Xmo\JWTAuth;
+namespace Jac1800\JWTAuth;
 
 use Hyperf\Contract\ConfigInterface;
-use Xmo\JWTAuth\Exception\JWTException;
-use Xmo\JWTAuth\Util\JWTUtil;
+use Jac1800\JWTAuth\Exception\JWTException;
+use Jac1800\JWTAuth\Util\JWTUtil;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -155,5 +155,13 @@ abstract class AbstractJWT implements JWTInterface
     public function getSceneConfig(string $scene = 'default')
     {
         return $this->config->get("{$this->configPrefix}.{$this->scenePrefix}.{$scene}");
+    }
+    /**
+     * @param bool $independentTokenVerify
+     * @return bool
+     */
+    public function getIndependentTokenVerify(bool $independentTokenVerify = false): bool
+    {
+        return $this->config->get("{$this->configPrefix}")['independentTokenVerify'] ?? $independentTokenVerify;
     }
 }
